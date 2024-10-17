@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주식 정보 검색</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container {
+            display: flex;
+            flex: 1;
+        }
+        #dashboard {
+            width: 250px;
+            background-color: #1a5f7a;
+            color: white;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        #content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input, select, button {
+            margin: 5px 0;
+            padding: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #search-history {
+            margin-top: 20px;
+        }
+        #search-history h3 {
+            margin-bottom: 10px;
+        }
+        #search-history ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #search-history li {
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            #dashboard {
+                width: 100%;
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="dashboard">
+            <h2>주식 정보 검색</h2>
+            <form method="POST">
+                <input type="text" name="symbol" placeholder="주식 심볼 입력" required>
+                <select name="period">
+                    <option value="1mo">1개월</option>
+                    <option value="3mo">3개월</option>
+                    <option value="6mo">6개월</option>
+                    <option value="1y">1년</option>
+                    <option value="2y" selected>2년</option>
+                    <option value="5y">5년</option>
+                    <option value="10y">10년</option>
+                    <option value="max">전체</option>
+                </select>
+                <button type="submit">검색</button>
+            </form>
+            <div id="search-history">
+                <h3>검색 기록</h3>
+                <ul>
+                    {% for item in search_history %}
+                    <li onclick="document.getElementsByName('symbol')[0].value='{{ item }}'; document.querySelector('form').submit();">{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div id="content">
+            {% if chart %}
+            <h2>{{ symbol }} 주가 정보</h2>
+            {{ chart | safe }}
+            {% if financial_data %}
+            <div style="display: flex; justify-content: center; margin-top: 20px;">
+                <div style="width: 80%; max-width: 600px;">
+                    <h3>재무 데이터</h3>
+                    <p class="financial-date">기준일: {{ financial_date }}</p>
+                    <table>
+                        <tr>
+                            <th>지표</th>
+                            <th>값</th>
+                        </tr>
+                        {% for key, value in financial_data.items() %}
+                        <tr>
+                            <td>{{ key }}</td>
+                            <td style="text-align: right;">
+                                {% if value is number %}
+                                    {{ '{:,.0f}'.format(value) }}
+                                {% else %}
+                                    {{ value }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            {% endif %}
+            {% else %}
+            <h2>주식 심볼을 입력하세요</h2>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
