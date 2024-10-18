@@ -1,0 +1,145 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #1e5a7b;
+    color: white;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.search-container {
+    display: flex;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+#searchInput {
+    flex-grow: 1;
+    padding: 5px;
+    font-size: 14px;
+}
+
+#searchButton {
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#refreshBtn {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: auto;
+}
+
+#historyList {
+    flex-grow: 1;
+    overflow-y: auto;
+    list-style-type: none;
+    padding: 0;
+}
+
+#historyList li {
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.financials {
+    display: flex;
+    justify-content: space-between;
+}
+
+table {
+    width: 48%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+/* 차트 크기 조정 */
+#chart {
+    width: 100%;
+    height: 60vh;
+}
+
+/* 뉴스 카드 스타일 */
+.news-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.news-item {
+    flex: 0 1 calc(20% - 10px);
+    min-width: 150px;
+    max-width: 200px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.news-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .news-item {
+        flex: 1 1 100%;
+    }
+}
+
+.stock-summary {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+#errorMessage {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.pinned {
+    color: #ffd700;
+}
