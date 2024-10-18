@@ -26,9 +26,10 @@
            git config --local user.email "action@github.com"
            git config --local user.name "GitHub Action"
            git add .
-           git commit -m "Auto update" -a
+           git diff-index --quiet HEAD || git commit -m "Auto update"
        - name: Push changes
-         uses: ad-m/github-push-action@master
+         uses: actions/checkout@v2
          with:
-           github_token: ${{ secrets.GITHUB_TOKEN }}
-           branch: ${{ github.ref }}
+           token: ${{ secrets.GITHUB_TOKEN }}
+           push: true
+           ref: main
